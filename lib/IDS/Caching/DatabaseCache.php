@@ -29,6 +29,7 @@
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
  * @link     http://php-ids.org/
  */
+
 namespace IDS\Caching;
 
 /**
@@ -70,7 +71,6 @@ CREATE TABLE `cache` (
  */
 class DatabaseCache implements CacheInterface
 {
-
     /**
      * Caching type
      *
@@ -127,7 +127,6 @@ class DatabaseCache implements CacheInterface
      */
     public static function getInstance($type, $init)
     {
-
         if (!self::$cachingInstance) {
             self::$cachingInstance = new DatabaseCache($type, $init);
         }
@@ -150,15 +149,11 @@ class DatabaseCache implements CacheInterface
         $rows = $handle->query('SELECT created FROM `' . $this->config['table'].'`');
 
         if (!$rows || $rows->rowCount() === 0) {
-
             $this->write($handle, $data);
         } else {
-
             foreach ($rows as $row) {
-
                 if ((time()-strtotime($row['created'])) >
                     $this->config['expiration_time']) {
-
                     $this->write($handle, $data);
                 }
             }
@@ -190,7 +185,6 @@ class DatabaseCache implements CacheInterface
             foreach ($result as $row) {
                 return unserialize($row['data']);
             }
-
         } catch (\PDOException $e) {
             throw new \PDOException('PDOException: ' . $e->getMessage());
         }
@@ -212,7 +206,6 @@ class DatabaseCache implements CacheInterface
             || !$this->config['user']
                 || !$this->config['password']
                     || !$this->config['table']) {
-
             throw new \Exception('Insufficient connection parameters');
         }
 
@@ -224,7 +217,6 @@ class DatabaseCache implements CacheInterface
                 $this->config['password']
             );
             $handle->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-
         } catch (\PDOException $e) {
             throw new \PDOException('PDOException: ' . $e->getMessage());
         }

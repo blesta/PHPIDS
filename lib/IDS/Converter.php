@@ -87,7 +87,6 @@ class Converter
     {
         // check for existing comments
         if (preg_match('/(?:\<!-|-->|\/\*|\*\/|\/\/\W*\w+\s*$)|(?:--[^-]*-)/ms', $value)) {
-
             $pattern = array(
                 '/(?:(?:<!)(?:(?:--(?:[^-]*(?:-[^-]+)*)--\s*)*)(?:>))/ms',
                 '/(?:(?:\/\*\/*[^\/\*]*)+\*\/)/ms',
@@ -158,7 +157,6 @@ class Converter
                     if (array_sum($match) >= 20 && array_sum($match) <= 127) {
                         $converted .= chr(array_sum($match));
                     }
-
                 } elseif (!empty($char) && $char >= 20 && $char <= 127) {
                     $converted .= chr($char);
                 }
@@ -672,10 +670,10 @@ class Converter
    */
     public static function convertFromUrlencodeSqlComment($value)
     {
-        if (preg_match_all('/(?:\%23.*?\%0a)/im',$value,$matches)){
+        if (preg_match_all('/(?:\%23.*?\%0a)/im', $value, $matches)) {
             $converted = $value;
-            foreach($matches[0] as $match){
-                $converted = str_replace($match,' ',$converted);
+            foreach ($matches[0] as $match) {
+                $converted = str_replace($match, ' ', $converted);
             }
             $value .= "\n" . $converted;
         }

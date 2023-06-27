@@ -29,6 +29,7 @@
  * @license  http://www.gnu.org/licenses/lgpl.html LGPL
  * @link     http://php-ids.org/
  */
+
 namespace IDS;
 
 use IDS\Filter\Storage;
@@ -146,8 +147,8 @@ class Monitor
         $this->tags       = $tags;
         $this->scanKeys   = $init->config['General']['scan_keys'];
         $this->exceptions = isset($init->config['General']['exceptions']) ? $init->config['General']['exceptions'] : array();
-        $this->html       = isset($init->config['General']['html'])       ? $init->config['General']['html'] : array();
-        $this->json       = isset($init->config['General']['json'])       ? $init->config['General']['json'] : array();
+        $this->html       = isset($init->config['General']['html']) ? $init->config['General']['html'] : array();
+        $this->json       = isset($init->config['General']['json']) ? $init->config['General']['json'] : array();
 
         if (isset($init->config['General']['HTML_Purifier_Cache'])) {
             $this->HTMLPurifierCache  = $init->getBasePath() . $init->config['General']['HTML_Purifier_Cache'];
@@ -168,7 +169,7 @@ class Monitor
      */
     public function run(array $request)
     {
-        $report = new Report;
+        $report = new Report();
         foreach ($request as $key => $value) {
             $report = $this->iterate($key, $value, $report);
         }
@@ -399,7 +400,7 @@ class Monitor
         $diff = preg_replace('/>\s*</m', '><', $diff);
 
         // correct over-sensitively stripped bad html elements
-        $diff = preg_replace('/[^<](iframe|script|embed|object|applet|base|img|style)/m', '<$1', $diff );
+        $diff = preg_replace('/[^<](iframe|script|embed|object|applet|base|img|style)/m', '<$1', $diff);
 
         return mb_strlen($diff) >= 4 ? $diff . $plain : null;
     }
